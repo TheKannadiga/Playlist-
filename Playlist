@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surprise Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #ADD8E6, #FFFFFF); /* Snow blue to white gradient */
+        }
+        .content {
+            position: relative;
+            z-index: 1;
+            color: black;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .btn {
+            font-size: 24px;
+            padding: 20px 40px;
+            margin: 10px;
+            background-color: #FFFFFF;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #FFD700;
+        }
+        .hidden {
+            display: none;
+        }
+        .btn-clicked {
+            animation: shake 0.5s;
+        }
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
+        .easter-egg {
+            display: none;
+            margin-top: 20px;
+            font-size: 18px;
+            color: yellow;
+        }
+        #responseMessage {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="content" id="content">
+        <h1>Do you want to continue?</h1>
+        <button id="yesBtn" class="btn">Yes</button>
+        <button id="noBtn" class="btn">No</button>
+        <p id="message" class="hidden">Just kidding! Here's something for you!</p>
+        <p id="easterEgg" class="easter-egg">You found the Easter egg! Surprise! 🎉</p>
+        <p id="responseMessage" class="hidden">Thank you for your response!</p>
+    </div>
+
+    <script>
+        // Interaction logic
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const message = document.getElementById('message');
+        const easterEgg = document.getElementById('easterEgg');
+        const responseMessage = document.getElementById('responseMessage');
+        const content = document.getElementById('content');
+
+        let yesClicks = 0;
+
+        yesBtn.addEventListener('click', () => {
+            yesClicks++;
+            const x = Math.floor(Math.random() * (window.innerWidth - yesBtn.offsetWidth));
+            const y = Math.floor(Math.random() * (window.innerHeight - yesBtn.offsetHeight));
+            yesBtn.style.position = 'absolute';
+            yesBtn.style.left = `${x}px`;
+            yesBtn.style.top = `${y}px`;
+            yesBtn.classList.add('btn-clicked');
+            setTimeout(() => {
+                yesBtn.classList.remove('btn-clicked');
+            }, 500);
+        });
+
+        noBtn.addEventListener('click', () => {
+            content.innerHTML = `
+                <h1>Secret Message</h1>
+                <button id="showPlaylist" class="btn">Click here</button>
+            `;
+            const showPlaylist = document.getElementById('showPlaylist');
+            showPlaylist.addEventListener('click', () => {
+                content.innerHTML = `
+                    <h1>Playlist Page</h1>
+                    <p>Enjoy this playlist!</p>
+                    <a href="https://open.spotify.com/playlist/1m67f89htwifyLiUQXctG3?si=26FfyLaVRaWPBbeetmkLjg" target="_blank" class="btn">Open Playlist</a>
+                `;
+            });
+        });
+    </script>
+</body>
+</html>
